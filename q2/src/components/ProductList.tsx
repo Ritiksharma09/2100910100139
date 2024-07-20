@@ -1,4 +1,3 @@
-// src/components/ProductList.tsx
 import React, { useState, useEffect } from 'react';
 import { getProducts } from '../api';
 import Product from './Product';
@@ -7,6 +6,7 @@ import { Grid, CircularProgress } from '@mui/material';
 const ProductList: React.FC = () => {
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const N = 10;
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -14,12 +14,10 @@ const ProductList: React.FC = () => {
         const responses = await Promise.all([
           getProducts('category1', 'company1'),
           getProducts('category1', 'company2'),
-          // Add requests for other companies
         ]);
         const allProducts = responses.flatMap((response) => response.data);
-        // Sort products by your criteria (e.g., ratings)
         const sortedProducts = allProducts.sort((a, b) => b.rating - a.rating);
-        setProducts(sortedProducts.slice(0, N)); // N is the number of top products to display
+        setProducts(sortedProducts.slice(0, N));
       } catch (error) {
         console.error('Error fetching products:', error);
       } finally {
